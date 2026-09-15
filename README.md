@@ -70,6 +70,15 @@ Stop the schedule with:
 launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.donutman.rsi-paper-bot.plist
 ```
 
+### Enable GitHub Actions
+
+The repository includes `.github/workflows/rsi-paper-trader.yml`, scheduled for approximately every 15 minutes. In GitHub, open **Settings -> Secrets and variables -> Actions** and add these repository secrets:
+
+- `ALPACA_API_KEY`
+- `ALPACA_SECRET_KEY`
+
+The workflow supplies the paper endpoint itself. Then open the workflow under the **Actions** tab and use **Run workflow** for the first manual evaluation. GitHub scheduled jobs can be delayed occasionally, so macOS `launchd` is the more consistent option when the Mac is awake.
+
 ## Run a strategy directly
 
 ```bash
