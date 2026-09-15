@@ -1,0 +1,38 @@
+name: BTC/USD RSI paper trader
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions schedules are UTC and may be delayed during high load.
+    - cron: "3,18,33,48 * * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: btc-usd-rsi-paper-trader
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Evaluate BTC/USD RSI strategy
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+          ALPACA_BASE_URL: https://paper-api.alpaca.markets
+        run: python rsi_paper_bot.py
