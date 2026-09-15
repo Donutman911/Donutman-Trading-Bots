@@ -1,0 +1,6 @@
+credentials/.env
+.venv/
+__pycache__/
+*.py[cod]
+rsi_paper_bot.log
+rsi_paper_bot.error.log
